@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Mis 486 Verbos · Estudio de inglés</title>
+  <link rel="stylesheet" href="verbos.css">
+</head>
+
+<body>
+  <div class="wrap">
+    <header>
+      <p class="kicker">Tu lista · 486 verbos en inglés</p>
+      <h1>Aprende tus verbos en <span class="mark">presente, pasado y futuro</span></h1>
+      <p class="sub">Explora cada verbo con ejemplos, practícalo con tarjetas y ponte a prueba con el quiz. Las palabras
+        clave de tiempo (<em>every day, yesterday, tomorrow…</em>) te dicen qué forma usar.</p>
+    </header>
+
+    <nav id="nav" role="tablist" aria-label="Secciones de estudio">
+      <button role="tab" data-p="aprender" class="on" aria-selected="true" aria-controls="p-aprender"
+        id="tab-aprender">📖 Aprender</button>
+      <button role="tab" data-p="tarjetas" aria-selected="false" aria-controls="p-tarjetas" id="tab-tarjetas">🗂️
+        Tarjetas</button>
+      <button role="tab" data-p="quiz" aria-selected="false" aria-controls="p-quiz" id="tab-quiz">✏️ Quiz</button>
+      <button role="tab" data-p="lista" aria-selected="false" aria-controls="p-lista" id="tab-lista">📋 Lista
+        completa</button>
+    </nav>
+    <div id="prog"></div>
+
+    <section class="panel on" id="p-aprender" role="tabpanel" aria-labelledby="tab-aprender">
+      <div class="search-row">
+        <div class="sugg" style="flex:1">
+          <label for="searchVerb" class="sr-only">Buscar verbo en inglés o español</label>
+          <input id="searchVerb" type="search" placeholder="Busca un verbo en inglés o español… (ej: eat, comer)"
+            autocomplete="off">
+          <div class="sugg-list" id="suggList" role="listbox" aria-label="Sugerencias" style="display:none"></div>
+        </div>
+        <div class="nav-btns">
+          <button id="prevVerb" aria-label="Verbo anterior">←</button>
+          <button id="randVerb" aria-label="Verbo al azar">🎲</button>
+          <button id="nextVerb" aria-label="Verbo siguiente">→</button>
+        </div>
+      </div>
+      <div class="box" id="verbDetail"></div>
+      <aside class="metodo box" style="margin-top:14px">
+        <h2>Cómo estudiar con esta app (método de 3 pasos)</h2>
+        <ol>
+          <li><strong>Comprende (aquí):</strong> mira el verbo con sus 5 formas y lee los ejemplos en voz alta. Fíjate
+            en la palabra clave resaltada: <em>every day</em> = presente, <em>yesterday</em> = pasado, <em>tomorrow +
+              will</em> = futuro.</li>
+          <li><strong>Memoriza (Tarjetas):</strong> estudia en bloques de 10. Si dudas más de 3 segundos, marca
+            «Repasar» — la tarjeta volverá a salir. Repite el bloque hasta acertarlas todas.</li>
+          <li><strong>Comprueba (Quiz):</strong> hazte el quiz del mismo bloque. Si fallas, vuelve a «Aprender» y crea
+            tu propia oración con ese verbo: usarlo es la mejor forma de fijarlo.</li>
+        </ol>
+      </aside>
+    </section>
+
+    <section class="panel" id="p-tarjetas" role="tabpanel" aria-labelledby="tab-tarjetas" aria-hidden="true">
+      <div class="filters">
+        <label for="fcType" class="sr-only">Tipo de verbos</label>
+        <select id="fcType">
+          <option value="ALL">Todos los verbos</option>
+          <option value="R">Solo regulares</option>
+          <option value="I">Solo irregulares</option>
+        </select>
+        <label for="fcDir" class="sr-only">Dirección de traducción</label>
+        <select id="fcDir">
+          <option value="EN">Inglés → Español</option>
+          <option value="ES">Español → Inglés</option>
+        </select>
+        <label for="fcSize" class="sr-only">Tamaño del bloque</label>
+        <select id="fcSize">
+          <option value="10">Bloque de 10</option>
+          <option value="20">Bloque de 20</option>
+          <option value="50">Bloque de 50</option>
+        </select>
+        <button class="btn primary" id="fcStart">Nuevo bloque</button>
+      </div>
+      <div class="progress" role="progressbar" aria-label="Progreso del bloque" aria-valuenow="0" aria-valuemin="0"
+        aria-valuemax="100">
+        <div id="fcBar" style="width:0%"></div>
+      </div>
+      <div id="fcArea"></div>
+      <p class="muted" style="margin-top:10px">Toca la tarjeta (o pulsa <strong>espacio</strong>) para voltearla. Los verbos que marques como aprendidos se guardan entre sesiones en tu navegador.</p>
+    </section>
+
+    <section class="panel" id="p-quiz" role="tabpanel" aria-labelledby="tab-quiz" aria-hidden="true">
+      <div class="qmodes" role="group" aria-label="Modo de pregunta">
+        <button data-m="past" class="on">Pasado simple</button>
+        <button data-m="sentence">Completa la oración</button>
+        <button data-m="meaning">Significado</button>
+      </div>
+      <div class="filters">
+        <label for="qType" class="sr-only">Filtrar por tipo de verbo</label>
+        <select id="qType">
+          <option value="ALL">Todos los verbos</option>
+          <option value="I">Solo irregulares</option>
+          <option value="R">Solo regulares</option>
+        </select>
+      </div>
+      <div class="score-row" aria-live="polite">
+        <span>Aciertos: <strong id="qOk">0</strong></span>
+        <span>Fallos: <strong id="qNo">0</strong></span>
+        <span>Racha: <strong id="qStreak">0</strong> 🔥</span>
+      </div>
+      <div class="box" id="qArea"></div>
+    </section>
+
+    <section class="panel" id="p-lista" role="tabpanel" aria-labelledby="tab-lista" aria-hidden="true">
+      <div class="lista-tools">
+        <label for="listSearch" class="sr-only">Filtrar verbos</label>
+        <input id="listSearch" type="search" placeholder="Filtrar por verbo o significado…">
+        <label for="listType" class="sr-only">Tipo de verbo</label>
+        <select id="listType">
+          <option value="ALL">Todos</option>
+          <option value="R">Regulares</option>
+          <option value="I">Irregulares</option>
+        </select>
+      </div>
+      <p class="count" id="listCount"></p>
+      <div class="table-scroll">
+        <table class="vtable">
+          <thead>
+            <tr>
+              <th scope="col">#</th>
+              <th scope="col">Tipo</th>
+              <th scope="col">Presente</th>
+              <th scope="col">3ª pers.</th>
+              <th scope="col">Pasado</th>
+              <th scope="col">Participio</th>
+              <th scope="col">Gerundio</th>
+              <th scope="col">Futuro</th>
+              <th scope="col">Significado</th>
+            </tr>
+          </thead>
+          <tbody id="listBody"></tbody>
+        </table>
+      </div>
+    </section>
+  </div>
+
+  <script src="verbos.data.js"></script>
+  <script src="verbos.js"></script>
+</body>
+
+</html>
