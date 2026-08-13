@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Mis 486 Verbos · Estudio de inglés</title>
+<link rel="stylesheet" href="verbos.css">
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <div class="kicker">Tu lista · 486 verbos en inglés</div>
+    <h1>Aprende tus verbos en <span class="mark">presente, pasado y futuro</span></h1>
+    <div class="sub">Explora cada verbo con ejemplos, practícalo con tarjetas y ponte a prueba con el quiz. Las palabras clave de tiempo (<i>every day, yesterday, tomorrow…</i>) te dicen qué forma usar.</div>
+  </header>
+
+  <nav id="nav">
+    <button data-p="aprender" class="on">📖 Aprender</button>
+    <button data-p="tarjetas">🗂️ Tarjetas</button>
+    <button data-p="quiz">✏️ Quiz</button>
+    <button data-p="lista">📋 Lista completa</button>
+    <button data-p="extras">💡 Extras</button>
+  </nav>
+
+  <div class="gprog">
+    <div class="gbar"><div id="gbarFill"></div></div>
+    <span class="gtext" id="gText"></span>
+    <button class="gbtn" id="gListBtn">Ver lista</button>
+    <button class="glink" id="resetProgress">Reiniciar</button>
+  </div>
+  <div class="box" id="masteredPanel" style="display:none; margin-bottom:18px"></div>
+
+  <!-- ============ APRENDER ============ -->
+  <section class="panel on" id="p-aprender">
+    <div class="search-row">
+      <div class="sugg" style="flex:1">
+        <input id="searchVerb" type="text" placeholder="Busca un verbo en inglés o español… (ej: eat, comer)" autocomplete="off">
+        <div class="sugg-list" id="suggList" style="display:none"></div>
+      </div>
+      <div class="nav-btns">
+        <button id="prevVerb" aria-label="Verbo anterior">←</button>
+        <button id="randVerb" title="Verbo al azar">🎲</button>
+        <button id="nextVerb" aria-label="Verbo siguiente">→</button>
+      </div>
+    </div>
+    <div class="box" id="verbDetail"></div>
+    <div class="metodo box" style="margin-top:14px">
+      <h2>Tu plan de estudio (así se usa esta app)</h2>
+      <ol>
+        <li><b>Cada día — Comprende (aquí):</b> explora 10 verbos nuevos con sus 5 formas y lee los ejemplos en voz alta. Fíjate en la palabra clave resaltada: <i>every day</i> = presente, <i>yesterday</i> = pasado, <i>tomorrow + will</i> = futuro.</li>
+        <li><b>Cada día — Memoriza (Tarjetas):</b> estudia esos mismos 10 en un bloque. Si dudas más de 3 segundos, marca «Repasar»: la tarjeta volverá a salir. Repite hasta acertarlas todas.</li>
+        <li><b>Cada día — Comprueba (Quiz):</b> hazte el quiz de pasado y el de completar oraciones. Si fallas un verbo, crea tu propia oración con él: usarlo es la mejor forma de fijarlo.</li>
+        <li><b>2-3 veces por semana — Gramática (Extras):</b> avanza por la ruta de 22 lecciones en orden: <b>Módulo 1</b> Fundamentos (pronombres, preguntas con do/does, hay…) → <b>Módulo 2</b> Palabras trampa → <b>Módulo 3</b> Tiempos básicos → <b>Módulo 4</b> Modales → <b>Módulo 5</b> Tiempos perfectos. Supera el quiz de cada una (75%+) antes de pasar a la siguiente.</li>
+        <li><b>Cada domingo — Repasa:</b> vuelve a las tarjetas con «Todos los verbos» en un bloque de 50, y reintenta el quiz de las 2 lecciones que más te costaron. Repetir con días de distancia es lo que pasa el conocimiento a la memoria de largo plazo.</li>
+      </ol>
+    </div>
+  </section>
+
+  <!-- ============ TARJETAS ============ -->
+  <section class="panel" id="p-tarjetas">
+    <div class="filters">
+      <select id="fcType">
+        <option value="ALL">Todos los verbos</option>
+        <option value="R">Solo regulares</option>
+        <option value="I">Solo irregulares</option>
+      </select>
+      <select id="fcDir">
+        <option value="EN">Inglés → Español</option>
+        <option value="ES">Español → Inglés</option>
+      </select>
+      <select id="fcSize">
+        <option value="10">Bloque de 10</option>
+        <option value="20">Bloque de 20</option>
+        <option value="50">Bloque de 50</option>
+      </select>
+      <button class="btn primary" id="fcStart">Nuevo bloque</button>
+    </div>
+    <div class="progress"><div id="fcBar" style="width:0%"></div></div>
+    <div id="fcArea"></div>
+    <p class="muted" style="margin-top:10px">Toca la tarjeta (o pulsa <b>espacio</b>) para voltearla. 💾 Tu progreso se guarda automáticamente en este navegador — míralo en la barra verde de arriba.</p>
+  </section>
+
+  <!-- ============ QUIZ ============ -->
+  <section class="panel" id="p-quiz">
+    <div class="qmodes">
+      <button data-m="past" class="on">Pasado simple</button>
+      <button data-m="sentence">Completa la oración</button>
+      <button data-m="meaning">Significado</button>
+    </div>
+    <div class="filters">
+      <select id="qType">
+        <option value="ALL">Todos los verbos</option>
+        <option value="I">Solo irregulares</option>
+        <option value="R">Solo regulares</option>
+      </select>
+    </div>
+    <div class="score-row">
+      <span>Aciertos: <b id="qOk">0</b></span>
+      <span>Fallos: <b id="qNo">0</b></span>
+      <span>Racha: <b id="qStreak">0</b> 🔥</span>
+    </div>
+    <div class="box" id="qArea"></div>
+  </section>
+
+  <!-- ============ LISTA ============ -->
+  <section class="panel" id="p-lista">
+    <div class="lista-tools">
+      <input id="listSearch" type="text" placeholder="Filtrar por verbo o significado…">
+      <select id="listType">
+        <option value="ALL">Todos</option>
+        <option value="R">Regulares</option>
+        <option value="I">Irregulares</option>
+      </select>
+    </div>
+    <div class="count" id="listCount"></div>
+    <div class="table-scroll">
+      <table class="vtable">
+        <thead><tr>
+          <th>#</th><th>Tipo</th><th>Presente</th><th>3ª pers.</th><th>Pasado</th><th>Participio</th><th>Gerundio</th><th>Futuro</th><th>Significado</th>
+        </tr></thead>
+        <tbody id="listBody"></tbody>
+      </table>
+    </div>
+  </section>
+
+  <!-- ============ EXTRAS ============ -->
+  <section class="panel" id="p-extras">
+    <p class="muted" style="margin-bottom:10px">📍 <b>Ruta de aprendizaje sugerida:</b> las lecciones están organizadas en 5 módulos, de lo básico a lo avanzado. Sigue el orden numerado, y cuando superes el quiz de una lección (75% o más) quedará marcada con ✓. Al terminar cada quiz podrás saltar directo a la siguiente. 👇</p>
+    <div class="qmodes" id="lessonNav"></div>
+    <div id="lessonBody"></div>
+  </section>
+</div>
+
+<script src="verbos.data.js"></script>
+<script src="verbos.js"></script>
+</body>
+</html>

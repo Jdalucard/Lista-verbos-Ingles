@@ -1,0 +1,16 @@
+# Configuración de despliegue para Netlify (opcional pero recomendada)
+
+[build]
+  publish = "."
+
+[[headers]]
+  for = "/*"
+  [headers.values]
+    X-Frame-Options = "DENY"
+    X-Content-Type-Options = "nosniff"
+
+# El HTML no se cachea agresivamente: así tus actualizaciones se ven de inmediato
+[[headers]]
+  for = "/index.html"
+  [headers.values]
+    Cache-Control = "public, max-age=0, must-revalidate"
